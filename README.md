@@ -1,10 +1,13 @@
-# Data in microservices
+# 1 DB per service
 
-## Major types
+## Steps
 
-- 1 DB for all services
-- 1 DB per service
-- CQRS
-- Event Sourcing
+Get node js boilerplate for a basic user api with nodeJS, express and mongoDB ([repo here](https://github.com/giuseppealbrizio/express-ecma-boilerplate-mongodb))
+
+```
+git clone git@github.com:giuseppealbrizio/express-ecma-boilerplate-mongodb.git
+mv express-ecma-boilerplate-mongodb user-api
+```
+
 
 
