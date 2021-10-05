@@ -52,8 +52,6 @@ User.prototype.toJSON = function () {
 
   const userObj = user.dataValues;
 
-  userObj.id = userObj._id; // remap _id to id
-  delete userObj._id;
   delete userObj.password;
   delete userObj.__v;
   return userObj;
@@ -64,7 +62,7 @@ User.prototype.comparePassword = async function (password) {
 }
 
 User.prototype.generateVerificationToken = function () {
-  return jwt.sign({ id: this._id, email: this.email }, jwtKey, {
+  return jwt.sign({ id: this.id, email: this.email }, jwtKey, {
     expiresIn: '10d',
     // algorithm: 'RS256', // use user if set public and private keys
   });

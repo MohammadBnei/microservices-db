@@ -8,7 +8,7 @@ export default {
   findById: async (...args) => {
     const user = await User.findOne({
       where: {
-        [Op.or]: args.map(({ field, value }) => ({ [field]: value }))
+        [Op.or]: args
       }
     });
 
@@ -22,7 +22,7 @@ export default {
   update: async (id, data) => {
     const updatedUser = await User.update(data, {
       where: {
-        _id: id
+        id
       }
     });
 
@@ -33,7 +33,7 @@ export default {
     }
   },
   delete: async (id) => {
-    const deletedUser = await User.destroy({ where: { _id: id } });
+    const deletedUser = await User.destroy({ where: { id } });
 
     if (deletedUser !== null) {
       return deletedUser;

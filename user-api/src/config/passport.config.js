@@ -47,7 +47,7 @@ options.jwtFromRequest = ExtractJwt.fromExtractors([
 
 passport.use(
   new Strategy(options, (req, jwtPayload, done) => {
-    User.findById(jwtPayload.id)
+    User.findById({ id: jwtPayload.id })
       .then((user) => {
         if (user) {
           // eslint-disable-next-line no-param-reassign

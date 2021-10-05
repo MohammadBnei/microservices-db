@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy } from 'passport-local';
 import debug from 'debug';
 import User from '../../services/user.service';
+import { Op } from 'sequelize';
 
 const DEBUG = debug('dev');
 
@@ -13,20 +14,21 @@ const authFields = {
 
 passport.serializeUser((user, done) => {
   /* Store only the id in passport */
-  done(null, user._id);
+  done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  User.findById({ _id: id }, (err, user) => {
-    done(null, user);
-  });
+  User.findById({ id })
+    .then((err, user) => {
+      done(null, user);
+    });
 });
 
 passport.use(
   'login',
   new Strategy(authFields, async (req, email, password, cb) => {
     try {
-      const user = await User.findById({ field: 'email', value: email }, { field: 'username', value: email });
+      const user = await User.findById({ email }, { 'username': email });
 
       if (!user || !user.password) {
         return cb(null, false, { message: 'Incorrect email or password.' });
@@ -114,7 +116,7 @@ passport.use(
 
       const user = await User.findById({
         resetPasswordToken: token,
-        resetPasswordExpires: { $gt: Date.now() },
+        resetPasswordExpires: { [Op.gt]: Date.now() },
       });
 
       if (!user) {
