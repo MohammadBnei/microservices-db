@@ -42,14 +42,14 @@ const UserSchema = new Schema({
     type: Date,
     required: false,
   },
-  google: {
-    id: String,
-    sync: { type: Boolean }, // authorisation to sync with google
-    tokens: {
-      accessToken: String,
-      refreshToken: String,
-    },
-  },
+  // google: {
+  //   id: String,
+  //   sync: { type: Boolean }, // authorisation to sync with google
+  //   tokens: {
+  //     accessToken: String,
+  //     refreshToken: String,
+  //   },
+  // },
 });
 
 UserSchema.pre('save', async function (next) {

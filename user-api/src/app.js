@@ -30,16 +30,11 @@ import errorHandler from './middlewares/errorHandler.middleware';
 import indexRouter from './routes/index.route';
 import authRouter from './routes/auth.route';
 import userRouter from './routes/user.route';
-import uploadRouter from './routes/upload.route';
+// import uploadRouter from './routes/upload.route';
 /**
  * Documentation Router
  */
 import swaggerRouter from './routes/swagger.route';
-/**
- * Pub/Sub Routers
- */
-import publisherRouter from './routes/publisher.route';
-import subscriberRouter from './routes/subscriber.route';
 
 /**
  * import { User } from './models/Users.model';
@@ -184,7 +179,6 @@ app.use((req, res, next) => {
 app.use('/api/v1/', indexRouter);
 app.use('/api/v1/auth/', authRouter);
 app.use('/api/v1/users/', userRouter);
-app.use('/api/v1/upload/', uploadRouter);
 
 /**
  * Swagger Documentation endpoint
@@ -194,8 +188,6 @@ app.use('/api/v1/docs/', swaggerRouter);
 /**
  * Publisher endpoint
  */
-app.use('/api/v1/publisher/', publisherRouter);
-app.use('/api/v1/subscriber/', subscriberRouter);
 
 /**
  * This helper function is useful if we use express as a pure API endpoint

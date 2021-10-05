@@ -1,15 +1,11 @@
 {
-  "name": "express-ecma-boilerplate-mongodb",
-  "description": "A minimalist express ecma boilerplate with mongodb",
+  "name": "user-api",
+  "description": "created using a minimalist express ecma boilerplate with mongodb",
   "version": "1.0.10",
   "private": false,
   "license": "MIT",
   "bin": "src/bin/www.js",
   "main": "src/app.js",
-  "author": {
-    "name": "Giuseppe Albrizio",
-    "email": "g.albrizio@gmail.com"
-  },
   "engines": {
     "node": ">=12.0.0"
   },
@@ -34,7 +30,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/giuseppealbrizio/express-ecma-boilerplate-mongodb.git"
+    "url": "https://github.com/MohammadBnei/microservices-db"
   },
   "scripts": {
     "start": "npm run prod",
