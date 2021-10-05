@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy } from 'passport-local';
 import debug from 'debug';
-import User from '../../models/user.model';
+import User from '../../services/user.service';
 
 const DEBUG = debug('dev');
 
@@ -17,7 +17,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  User.findOne({ _id: id }, (err, user) => {
+  User.findById({ _id: id }, (err, user) => {
     done(null, user);
   });
 });
@@ -26,9 +26,7 @@ passport.use(
   'login',
   new Strategy(authFields, async (req, email, password, cb) => {
     try {
-      const user = await User.findOne({
-        $or: [{ email }, { username: email }],
-      });
+      const user = await User.findById({ field: 'email', value: email }, { field: 'username', value: email });
 
       if (!user || !user.password) {
         return cb(null, false, { message: 'Incorrect email or password.' });
@@ -71,11 +69,12 @@ passport.use(
         });
       }
 
-      const newUser = new User();
-      newUser.email = req.body.email;
-      newUser.password = req.body.password;
-      newUser.username = req.body.username;
-      await newUser.save();
+      const newUser = await User.create({
+        email: req.body.email,
+        password: req.body.password,
+        username: req.body.username,
+      });
+
 
       return cb(null, newUser);
     } catch (err) {
@@ -96,7 +95,7 @@ passport.use(
        * Deprecated in favour of password reset with token
        * @type {*}
        */
-      // const user = await User.findOne({
+      // const user = await User.findById({
       //   $or: [{ email }, { username: email }],
       // });
       // if (!user) {
@@ -113,7 +112,7 @@ passport.use(
       // }
       const { token } = await req.body;
 
-      const user = await User.findOne({
+      const user = await User.findById({
         resetPasswordToken: token,
         resetPasswordExpires: { $gt: Date.now() },
       });

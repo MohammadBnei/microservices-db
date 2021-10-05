@@ -1,11 +1,16 @@
+import { Op } from 'sequelize';
 import User from '../models/user.model';
 
 export default {
   find: async () => {
-    return User.find();
+    return User.findAll();
   },
-  findById: async (id) => {
-    const user = await User.findById(id).exec();
+  findById: async (...args) => {
+    const user = await User.findOne({
+      where: {
+        [Op.or]: args.map(({ field, value }) => ({ [field]: value }))
+      }
+    });
 
     if (user !== null) {
       return user;
@@ -13,10 +18,12 @@ export default {
       throw new Error('User not found');
     }
   },
+  create: (data) => User.create(data),
   update: async (id, data) => {
-    const updatedUser = await User.findByIdAndUpdate(id, data, {
-      new: true,
-      runValidators: true,
+    const updatedUser = await User.update(data, {
+      where: {
+        _id: id
+      }
     });
 
     if (updatedUser !== null) {
@@ -26,7 +33,7 @@ export default {
     }
   },
   delete: async (id) => {
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.destroy({ where: { _id: id } });
 
     if (deletedUser !== null) {
       return deletedUser;
@@ -34,4 +41,8 @@ export default {
       throw new Error('User not found');
     }
   },
+  checkExistingField: async (field, value) => {
+    const exists = await User.findOne({ where: { [`${field}`]: value } })
+    return exists;
+  }
 };

@@ -4,7 +4,7 @@
 import passport from 'passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import dotenv from 'dotenv';
-import User from '../models/user.model';
+import User from '../services/user.service';
 import { ApplicationError } from '../helpers/errors.helper';
 
 dotenv.config();
@@ -47,7 +47,7 @@ options.jwtFromRequest = ExtractJwt.fromExtractors([
 
 passport.use(
   new Strategy(options, (req, jwtPayload, done) => {
-    User.findOne({ _id: jwtPayload.id })
+    User.findById(jwtPayload.id)
       .then((user) => {
         if (user) {
           // eslint-disable-next-line no-param-reassign

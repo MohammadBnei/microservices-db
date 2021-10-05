@@ -1,10 +1,8 @@
 import compression from 'compression';
-import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import mongoSanitize from 'express-mongo-sanitize';
 import session from 'express-session';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -15,7 +13,7 @@ import xss from 'xss-clean';
 // Import custom logger function using winston
 import logger from './utils/logger.utils';
 
-import databaseConfig from './config/database.config';
+// import databaseConfig from './config/database.config';
 
 /**
  * Custom error handling
@@ -47,17 +45,7 @@ import swaggerRouter from './routes/swagger.route';
 /**
  * Global env variables definition
  */
-dotenv.config();
-
-/**
- * Call the MongoDB connection based on the NODE_ENV setting
- * and return info about db name
- */
-if (process.env.NODE_ENV === 'production') {
-  databaseConfig.MongoDB().catch((err) => console.log(err));
-} else {
-  databaseConfig.MongoDBTest().catch((err) => console.log(err));
-}
+dotenv.config(); 
 
 /**
  * Define Express
@@ -97,8 +85,7 @@ app.use(express.urlencoded({ extended: true }));
  * Sanitize data
  */
 app.use(xss());
-app.use(mongoSanitize());
-
+ 
 /**
  * GZIP compression
  */
@@ -128,13 +115,6 @@ app.use(
     secret: SECRET,
     resave: false,
     saveUninitialized: true,
-    /* Store session in mongodb */
-    store: MongoStore.create({
-      mongoUrl:
-        process.env.NODE_ENV === 'production'
-          ? process.env.MONGO_URI
-          : process.env.MONGO_URI_TEST,
-    }),
     // unset: 'destroy',
   }),
 );

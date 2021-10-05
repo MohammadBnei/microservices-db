@@ -1,8 +1,8 @@
-import mongoose, { Schema } from 'mongoose';
+import Sequelize from 'sequelize';
+import sequelize from '../config/database.config';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import validator from 'validator';
 import crypto from 'crypto';
 import { ApplicationError } from '../helpers/errors.helper';
 
@@ -18,13 +18,14 @@ if (!process.env.JWT_KEY) {
 }
 const jwtKey = process.env.JWT_KEY;
 
-const UserSchema = new Schema({
-  username: { type: String, required: true, unique: true },
+const User = sequelize.define('user', {
+  username: { type: Sequelize.STRING, allowNull: false, unique: true },
   email: {
-    type: String,
+    type: Sequelize.STRING,
     validate: {
-      validator: (value) => validator.isEmail(value),
-      message: 'Must be a Valid email',
+      isEmail: {
+        msg: 'Must be a Valid email',
+      },
     },
     lowercase: true,
     unique: true,
@@ -33,67 +34,52 @@ const UserSchema = new Schema({
     index: true,
     trim: true,
   },
-  password: { type: String, required: true, minlength: 8 },
+  password: {
+    type: Sequelize.STRING, required: true, minlength: 8,
+  },
   resetPasswordToken: {
-    type: String,
+    type: Sequelize.STRING,
     required: false,
   },
   resetPasswordExpires: {
-    type: Date,
+    type: Sequelize.DATE,
     required: false,
-  },
-  // google: {
-  //   id: String,
-  //   sync: { type: Boolean }, // authorisation to sync with google
-  //   tokens: {
-  //     accessToken: String,
-  //     refreshToken: String,
-  //   },
-  // },
-});
+  }
+})
 
-UserSchema.pre('save', async function (next) {
-  if (!this.password || !this.isModified('password')) return next;
-
-  this.password = await bcrypt.hash(
-    this.password,
-    parseInt(process.env.HASH, 10),
-  );
-  next();
-});
-
-UserSchema.methods.toJSON = function () {
+User.prototype.toJSON = function () {
   const user = this;
 
-  const userObj = user.toObject();
+  const userObj = user.dataValues;
 
   userObj.id = userObj._id; // remap _id to id
   delete userObj._id;
   delete userObj.password;
   delete userObj.__v;
   return userObj;
-};
+}
 
-UserSchema.methods.comparePassword = async function (password) {
+User.prototype.comparePassword = async function (password) {
   return bcrypt.compare(password, this.password);
-};
+}
 
-UserSchema.methods.generateVerificationToken = function () {
+User.prototype.generateVerificationToken = function () {
   return jwt.sign({ id: this._id, email: this.email }, jwtKey, {
     expiresIn: '10d',
-    // algorithm: 'RS256', // use this if set public and private keys
+    // algorithm: 'RS256', // use user if set public and private keys
   });
-};
+}
 
-UserSchema.methods.generatePasswordResetToken = async function () {
+User.prototype.generatePasswordResetToken = async function () {
   this.resetPasswordToken = await crypto.randomBytes(20).toString('hex');
   this.resetPasswordExpires = Date.now() + 3600000; // expires in an hour
-};
+}
 
-UserSchema.statics.checkExistingField = async function (field, value) {
-  const user = this;
+User.addHook('beforeSave', async (user) => {
+  user.password = await bcrypt.hash(
+    user.password,
+    parseInt(process.env.HASH, 10),
+  );
+})
 
-  return user.findOne({ [`${field}`]: value });
-};
-
-export default mongoose.model('User', UserSchema, 'users');
+export default User
