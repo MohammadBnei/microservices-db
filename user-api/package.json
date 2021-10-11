@@ -46,6 +46,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.4.7",
     "axios": "^0.21.4",
     "bcryptjs": "^2.4.3",
     "clean-deep": "^3.4.0",
@@ -70,6 +71,7 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "regenerator-runtime": "^0.13.9",
+    "sendgrid": "^5.2.3",
     "sequelize": "^6.6.5",
     "slugify": "^1.6.0",
     "swagger-ui-express": "^4.1.6",

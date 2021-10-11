@@ -20,17 +20,10 @@ export default {
   },
   create: (data) => User.create(data),
   update: async (id, data) => {
-    const updatedUser = await User.update(data, {
-      where: {
-        id
-      }
-    });
-
-    if (updatedUser !== null) {
-      return updatedUser;
-    } else {
-      throw new Error('User not found');
-    }
+    const userToUpdate = await User.findByPk(id)
+    if (userToUpdate === null) throw new Error('User not found');
+    Object.assign(userToUpdate, data)
+    return userToUpdate;
   },
   delete: async (id) => {
     const deletedUser = await User.destroy({ where: { id } });

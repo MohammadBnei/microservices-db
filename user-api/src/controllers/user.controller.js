@@ -32,7 +32,7 @@ export default {
    */
   findUserById: async (req, res) => {
     try {
-      const user = await UserService.findById(req.params.id);
+      const user = await UserService.findById({ id: req.params.id });
       res.status(200).json({
         status: 'success',
         message: 'User by id successfully retrieved',
