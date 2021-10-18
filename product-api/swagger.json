@@ -917,9 +917,6 @@
           },
           "vendorId": {
             "type": "number"
-          },
-          "password": {
-            "type": "string"
           }
         },
         "xml": {
