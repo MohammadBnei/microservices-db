@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  user:
+    image: node:14-alpine3.11
+    working_dir: /app
+    env_file: .env
+    volumes:
+      - ./user-api:/app
+    ports:
+      - 3000:3000
+    command: sh -c "npm i && npm run dev"
+    stdin_open: true
+
+  product:
+    image: node:14-alpine3.11
+    working_dir: /app
+    env_file: .env
+    volumes:
+      - ./product-api:/app
+    ports:
+      - 3001:3000
+    command: sh -c "npm i && npm run dev"
+    stdin_open: true
+
+  payment:
+    image: node:14-alpine3.11
+    working_dir: /app
+    env_file: .env
+    volumes:
+      - ./payment-api:/app
+    ports:
+      - 3002:3000
+    command: sh -c "npm i && npm run dev"
+    stdin_open: true
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: test
+    ports:
+      - 3017:27017
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+    ports:
+      - 3432:5432
