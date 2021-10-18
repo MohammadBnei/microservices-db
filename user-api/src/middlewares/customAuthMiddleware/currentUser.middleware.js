@@ -23,7 +23,7 @@ export const currentUser = (req, res, next) => {
       const payload = jwt.verify(jwtToken, process.env.JWT_KEY);
 
       req.currentUser = payload;
-    } else if (req.cookies.jwt) {
+    } else if (req.cookies?.jwt) {
       const payload = jwt.verify(req.cookies.jwt, process.env.JWT_KEY);
 
       req.currentUser = payload;

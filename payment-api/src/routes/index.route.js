@@ -9,7 +9,7 @@ const { apiEntryPoint, checkProductLogged } = indexController;
 const router = express.Router();
 
 router.get('/', catchAsync(apiEntryPoint));
-router.get('/check-product-logged', currentUser, catchAsync(checkProductLogged));
+router.get('/check-user-logged', currentUser, catchAsync(checkProductLogged));
 
 /**
  import asyncHandler from 'express-async-handler';

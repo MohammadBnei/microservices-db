@@ -39,7 +39,7 @@
     "clean": "rimraf build",
     "transpile": "babel src --out-dir build",
     "server": "node ./build/bin/www",
-    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/bin/www",
+    "dev": "cross-env DEBUG=dev NODE_ENV=development nodemon --exec babel-node src/bin/www",
     "lint": "eslint -c './.eslintrc' --ignore-path .gitignore --ext .js .",
     "lint-and-fix": "eslint --ignore-path .gitignore --ext .js --fix .",
     "lint-all": "eslint .",

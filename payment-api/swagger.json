@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Product API",
-    "description": "This is a minimalistic product api with auth and CRUD operations",
+    "title": "Payment API",
+    "description": "This is a minimalistic payment api with auth and CRUD operations",
     "contact": {
       "email": "mohammadamine.banaei@gmail.com"
     },
@@ -38,8 +38,8 @@
       "description": "Authorization routes"
     },
     {
-      "name": "Product",
-      "description": "Product routes"
+      "name": "Payment",
+      "description": "Payment routes"
     }
   ],
   "paths": {
@@ -260,13 +260,13 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/products": {
+    "/payments": {
       "get": {
         "tags": [
-          "Product"
+          "Payment"
         ],
-        "summary": "Retrieve all products",
-        "operationId": "findProducts",
+        "summary": "Retrieve all payments",
+        "operationId": "findPayments",
         "responses": {
           "200": {
             "description": "successful operation",
@@ -284,7 +284,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "products": {
+                        "payments": {
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -292,13 +292,13 @@
                               "_id": {
                                 "type": "string"
                               },
-                              "name": {
-                                "type": "string"
-                              },
-                              "value": {
+                              "payed": {
                                 "type": "number"
                               },
-                              "vendorId": {
+                              "buyerId": {
+                                "type": "string"
+                              },
+                              "paymentId": {
                                 "type": "string"
                               },
                               "__v": {
@@ -359,25 +359,25 @@
       },
       "post": {
         "tags": [
-          "Product"
+          "Payment"
         ],
-        "summary": "Create Product",
-        "operationId": "createProduct",
+        "summary": "Create Payment",
+        "operationId": "createPayment",
         "requestBody": {
           "required": true,
-          "description": "Product fields to create",
+          "description": "Payment fields to create",
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "value": {
+                  "payed": {
                     "type": "number"
                   },
-                  "name": {
+                  "buyerId": {
                     "type": "string"
                   },
-                  "vendorId": {
+                  "productId": {
                     "type": "string"
                   }
                 }
@@ -402,19 +402,19 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "product": {
+                        "payment": {
                           "type": "object",
                           "properties": {
                             "_id": {
                               "type": "string"
                             },
-                            "name": {
-                              "type": "string"
-                            },
-                            "value": {
+                            "payed": {
                               "type": "number"
                             },
-                            "vendorId": {
+                            "buyerId": {
+                              "type": "string"
+                            },
+                            "productId": {
                               "type": "string"
                             },
                             "__v": {
@@ -477,18 +477,18 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/products/{id}": {
+    "/payments/{id}": {
       "get": {
         "tags": [
-          "Product"
+          "Payment"
         ],
-        "summary": "Retrieve product by id",
-        "operationId": "findProductById",
+        "summary": "Retrieve payment by id",
+        "operationId": "findPaymentById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of product to return",
+            "description": "ID of payment to return",
             "required": true,
             "schema": {
               "type": "string"
@@ -512,19 +512,19 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "product": {
+                        "payment": {
                           "type": "object",
                           "properties": {
                             "_id": {
                               "type": "string"
                             },
-                            "name": {
-                              "type": "string"
-                            },
-                            "value": {
+                            "payed": {
                               "type": "number"
                             },
-                            "vendorId": {
+                            "buyerId": {
+                              "type": "string"
+                            },
+                            "productId": {
                               "type": "string"
                             },
                             "__v": {
@@ -584,15 +584,15 @@
       },
       "patch": {
         "tags": [
-          "Product"
+          "Payment"
         ],
-        "summary": "Update Product By Id",
-        "operationId": "updateProductById",
+        "summary": "Update Payment By Id",
+        "operationId": "updatePaymentById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of product to update",
+            "description": "ID of payment to update",
             "required": true,
             "schema": {
               "type": "string"
@@ -601,7 +601,7 @@
         ],
         "requestBody": {
           "required": true,
-          "description": "Product fields to update",
+          "description": "Payment fields to update",
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
@@ -635,19 +635,19 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "product": {
+                        "payment": {
                           "type": "object",
                           "properties": {
                             "_id": {
                               "type": "string"
                             },
-                            "name": {
-                              "type": "string"
-                            },
-                            "value": {
+                            "payed": {
                               "type": "number"
                             },
-                            "vendorId": {
+                            "buyerId": {
+                              "type": "string"
+                            },
+                            "productId": {
                               "type": "string"
                             },
                             "__v": {
@@ -711,15 +711,15 @@
       },
       "delete": {
         "tags": [
-          "Product"
+          "Payment"
         ],
-        "summary": "Delete Product By Id",
-        "operationId": "deleteProductById",
+        "summary": "Delete Payment By Id",
+        "operationId": "deletePaymentById",
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "ID of product to delete",
+            "description": "ID of payment to delete",
             "required": true,
             "schema": {
               "type": "string"
@@ -793,18 +793,18 @@
         "x-codegen-request-body-name": "body"
       }
     },
-    "/products/byvendor/{vendorId}": {
+    "/payments/byvendor/{vendorId}": {
       "get": {
         "tags": [
-          "Product"
+          "Payment"
         ],
-        "summary": "Retrieve product by vendor id",
-        "operationId": "findProductByVendorId",
+        "summary": "Retrieve payment by vendor id",
+        "operationId": "findPaymentByVendorId",
         "parameters": [
           {
             "name": "vendorId",
             "in": "path",
-            "description": "Vendor ID of product to return",
+            "description": "Vendor ID of payment to return",
             "required": true,
             "schema": {
               "type": "string"
@@ -828,19 +828,19 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "product": {
+                        "payment": {
                           "type": "object",
                           "properties": {
                             "_id": {
                               "type": "string"
                             },
-                            "name": {
-                              "type": "string"
-                            },
-                            "value": {
+                            "payed": {
                               "type": "number"
                             },
-                            "vendorId": {
+                            "buyerId": {
+                              "type": "string"
+                            },
+                            "productId": {
                               "type": "string"
                             },
                             "__v": {
@@ -902,28 +902,27 @@
   },
   "components": {
     "schemas": {
-      "Product": {
+      "Payment": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
+          "_id": {
             "type": "string"
           },
-          "value": {
-            "type": "string"
-          },
-          "vendorId": {
+          "payed": {
             "type": "number"
           },
-          "password": {
+          "buyerId": {
             "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          },
+          "__v": {
+            "type": "number"
           }
         },
         "xml": {
-          "name": "Product"
+          "name": "Payment"
         }
       }
     },

@@ -19,11 +19,16 @@ export default {
     }
   },
   findById: async (id) => {
-    const product = await Product.findById(id).exec();
+    try {
+      const product = await Product.findById(id).exec();
 
-    if (product !== null) {
-      return product;
-    } else {
+      if (product !== null) {
+        return product;
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      DEBUG(error);
       throw new Error('Product not found');
     }
   },

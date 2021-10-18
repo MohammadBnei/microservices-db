@@ -28,17 +28,17 @@ import errorHandler from './middlewares/errorHandler.middleware';
  * @type {Router | {readonly default?: Router}}
  */
 import indexRouter from './routes/index.route';
-import productRouter from './routes/product.route';
+import paymentRouter from './routes/payment.route';
 /**
  * Documentation Router
  */
 import swaggerRouter from './routes/swagger.route';
 
 /**
- * import { Product } from './models/Products.model';
+ * import { Payment } from './models/Payments.model';
  * If you import mongoose models in the entry point file then you can use
  * import mongoose from 'mongoose';
- * const Product = mongoose.model('Product');
+ * const Payment = mongoose.model('Payment');
  * Otherwise you can import model in the file you need to call it
  */
 
@@ -114,7 +114,7 @@ const SECRET = process.env.SECRET || 'my-super-secret';
 app.use(
   session({
     cookie: {
-      secure: DEFAULT_ENV === 'production',
+      secure: DEFAULT_ENV === 'paymention',
       maxAge: COOKIE_MAX_AGE,
       httpOnly: true,
       sameSite: 'lax',
@@ -168,7 +168,7 @@ app.use((req, res, next) => {
  * Routes definitions
  */
 app.use('/api/v1/', indexRouter);
-app.use('/api/v1/products/', productRouter);
+app.use('/api/v1/payments/', paymentRouter);
 
 /**
  * Swagger Documentation endpoint

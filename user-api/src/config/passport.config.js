@@ -27,7 +27,7 @@ const jwtKey = process.env.JWT_KEY;
  */
 const cookieExtractor = (req) => {
   let token = null;
-  if (req && req.cookies.jwt) {
+  if (req && req.cookies?.jwt) {
     token = req.cookies.jwt;
   }
 

@@ -2,15 +2,15 @@ import mongoose, { Schema } from 'mongoose';
 
 const PaymentSchema = new Schema({
   payed: { type: Number, required: true },
-  paymentId: { type: String, required: true },
+  productId: { type: String, required: true },
   buyerId: { type: String, required: true }
 }, {
   timestamps: true
 });
 
 PaymentSchema.pre('validate', async function (next) {
-  if (!this.value) return next;
-  this.value = Math.floor(this.value * 100)
+  if (!this.payed) return next;
+  this.payed = Math.floor(this.payed * 100)
   next();
 });
 

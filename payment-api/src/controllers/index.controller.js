@@ -34,17 +34,12 @@ export default {
         req.cookies?.jwt,
         process.env.JWT_KEY,
       );
-      // Return the product stored in the session
-      const sessionPayload = await jwt.verify(
-        req.session.product.jwt,
-        process.env.JWT_KEY,
-      );
-      // console.log(req);
+      //n                    console.log(req);
       res.status(200).json({
         status: 'success',
-        message: 'Product logged retrieved',
+        message: 'User logged retrieved',
         productInCookie: cookiePayload,
-        productInCustomMiddleware: req.currentProduct,
+        productInCustomMiddleware: req.currentUser,
       });
     } catch (error) {
       res.status(500).json({
