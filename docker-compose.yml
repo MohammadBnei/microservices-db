@@ -10,7 +10,6 @@ services:
     ports:
       - 3000:3000
     command: sh -c "npm i && npm run dev"
-    stdin_open: true
 
   product:
     image: node:14-alpine3.11
@@ -21,7 +20,6 @@ services:
     ports:
       - 3001:3000
     command: sh -c "npm i && npm run dev"
-    stdin_open: true
 
   payment:
     image: node:14-alpine3.11
@@ -32,7 +30,6 @@ services:
     ports:
       - 3002:3000
     command: sh -c "npm i && npm run dev"
-    stdin_open: true
 
   mongo:
     image: mongo

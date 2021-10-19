@@ -25,7 +25,5 @@ export const fetchUser = async (userId, token) => {
 }
 
 export const validateUser = (token) => async (userId) => {
-    const user = await fetchUser(userId, token)
-
-    return !!user
+    await fetchUser(userId, token)
 }

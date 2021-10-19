@@ -27,5 +27,7 @@ export const fetchProduct = async (productId, token) => {
 export const validatePayment = (token) => async (productId, payed) => {
     const product = await fetchProduct(productId, token)
 
-    return product.value >= payed
+    if (product.value > Number(payed)) {
+        throw new Error('The price is exceeding the ammount payed')
+    }
 }
