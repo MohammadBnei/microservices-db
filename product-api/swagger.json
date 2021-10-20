@@ -298,6 +298,9 @@
                               "value": {
                                 "type": "number"
                               },
+                              "quantity": {
+                                "type": "number"
+                              },
                               "vendorId": {
                                 "type": "string"
                               },
@@ -377,6 +380,9 @@
                   "name": {
                     "type": "string"
                   },
+                  "quantity": {
+                    "type": "number"
+                  },
                   "vendorId": {
                     "type": "string"
                   }
@@ -412,6 +418,9 @@
                               "type": "string"
                             },
                             "value": {
+                              "type": "number"
+                            },
+                            "quantity": {
                               "type": "number"
                             },
                             "vendorId": {
@@ -524,6 +533,9 @@
                             "value": {
                               "type": "number"
                             },
+                            "quantity": {
+                              "type": "number"
+                            },
                             "vendorId": {
                               "type": "string"
                             },
@@ -612,6 +624,9 @@
                   },
                   "name": {
                     "type": "string"
+                  },
+                  "quantity": {
+                    "type": "number"
                   }
                 }
               }
@@ -645,6 +660,9 @@
                               "type": "string"
                             },
                             "value": {
+                              "type": "number"
+                            },
+                            "quantity": {
                               "type": "number"
                             },
                             "vendorId": {
@@ -793,6 +811,9 @@
         "x-codegen-request-body-name": "body"
       }
     },
+    "quantity": {
+      "type": "number"
+    },
     "/products/byvendor/{vendorId}": {
       "get": {
         "tags": [
@@ -802,6 +823,9 @@
         "operationId": "findProductByVendorId",
         "parameters": [
           {
+            "quantity": {
+              "type": "number"
+            },
             "name": "vendorId",
             "in": "path",
             "description": "Vendor ID of product to return",
@@ -838,6 +862,9 @@
                               "type": "string"
                             },
                             "value": {
+                              "type": "number"
+                            },
+                            "quantity": {
                               "type": "number"
                             },
                             "vendorId": {
@@ -913,10 +940,13 @@
             "type": "string"
           },
           "value": {
-            "type": "string"
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
           },
           "vendorId": {
-            "type": "number"
+            "type": "string"
           }
         },
         "xml": {

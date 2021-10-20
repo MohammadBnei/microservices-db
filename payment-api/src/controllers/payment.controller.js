@@ -2,8 +2,7 @@ import debug from 'debug';
 import PaymentService from '../services/payment.service';
 import { ApplicationError, NotFoundError } from '../helpers/errors.helper';
 
-import externalValidator from '../externalValidator/index.validator'
-import jwt from 'jsonwebtoken';
+import sagaService from '../services/saga.service';
 
 const DEBUG = debug('dev');
 
@@ -61,14 +60,7 @@ export default {
 
       const { productId, payed, buyerId } = data
 
-      const token = jwt.sign(req.currentUser, process.env.JWT_KEY)
-
-      const { validatePayment, validateUser } = externalValidator(token)
-
-      await validatePayment(productId, payed)
-      if (buyerId !== req.currentUser?.id.toString()) {
-        await validateUser(buyerId)
-      }
+      await sagaService(productId, payed, buyerId, req.currentUser)
 
       const payment = await PaymentService.create(data);
       res.status(200).json({

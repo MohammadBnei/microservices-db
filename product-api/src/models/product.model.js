@@ -1,23 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
 import dotenv from 'dotenv';
-import { ApplicationError } from '../helpers/errors.helper';
 
 dotenv.config();
-
-// const jwtPrivateSecret = process.env.JWT_PRIVATE_SECRET.replace(/\\n/g, '\n');
-
-if (!process.env.JWT_KEY) {
-  throw new ApplicationError(
-    404,
-    'Please provide a JWT_KEY as global environment variable',
-  );
-}
-const jwtKey = process.env.JWT_KEY;
 
 const ProductSchema = new Schema({
   name: { type: String, required: true },
   value: { type: Number, required: true },
-  vendorId: { type: String, required: true }
+  vendorId: { type: String, required: true },
+  quantity: { type: Number, required: true }
 });
 
 ProductSchema.pre('validate', async function (next) {
