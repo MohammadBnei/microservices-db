@@ -50,5 +50,9 @@ export const validatePayment = (token) => async (productId, payed) => {
         throw new Error('The price is exceeding the ammount payed')
     }
 
+    if (!product.quantity || product.quantity < 1) {
+        throw new Error('There is no product available')
+    }
+
     return product
 }
