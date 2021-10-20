@@ -56,7 +56,7 @@ export default {
     try {
       const data = {
         ...req.body,
-        vendorId: req.currentUser.id
+        buyerId: req.currentUser.id
       }
 
       const { productId, payed, buyerId } = data

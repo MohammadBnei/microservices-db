@@ -31,6 +31,16 @@ services:
       - 3002:3000
     command: sh -c "npm i && npm run dev"
 
+  payment-creator:
+    image: node:14-alpine3.11
+    working_dir: /app
+    env_file: .env
+    volumes:
+      - ./payment-creator:/app
+    ports:
+      - 3003:3000
+    command: sh -c "npm i && npm run dev"
+
   mongo:
     image: mongo
     environment:
@@ -47,3 +57,6 @@ services:
       POSTGRES_PASSWORD: example
     ports:
       - 3432:5432
+
+  redis:
+    image: redis
