@@ -7,7 +7,7 @@ const productApiURL = process.env.PRODUCT_API_URL
 
 export const fetchProduct = async (productId, token) => {
     try {
-        const { data } = (await axios.get(`${productApiURL}products/${productId}`, {
+        const { data } = (await axios.get(`${productApiURL}/${productId}`, {
             headers: {
                 authorization: `Bearer ${token}`
             }
@@ -30,4 +30,6 @@ export const validatePayment = (token) => async (productId, payed) => {
     if (product.value > Number(payed)) {
         throw new Error('The price is exceeding the ammount payed')
     }
+
+    return product
 }

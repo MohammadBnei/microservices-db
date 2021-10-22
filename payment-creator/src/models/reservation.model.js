@@ -1,36 +1,14 @@
-import mongoose, { Schema } from 'mongoose';
+import client from "../config/database.config";
 
-const PaymentSchema = new Schema({
-  payed: { type: Number, required: true },
-  productId: { type: String, required: true },
-  buyerId: { type: String, required: true }
-}, {
-  timestamps: true
-});
+export const createReservation = async (productId, quantityLeft) => {
+  await client.set(productId, `${quantityLeft}`)
+}
 
-PaymentSchema.pre('validate', async function (next) {
-  if (!this.payed) return next;
-  this.payed = Math.floor(this.payed * 100)
-  next();
-});
+export const getReservation = (productId) => {
+  return client.get(productId)
+}
 
-PaymentSchema.methods.toJSON = function () {
-  const payment = this;
+export const deleteReservation = (productId) => {
+  return client.del(productId)
+}
 
-  const paymentObj = payment.toObject();
-
-  paymentObj.id = paymentObj._id; // remap _id to id
-  paymentObj.payed = paymentObj.payed / 100;
-
-  delete paymentObj._id;
-  delete paymentObj.__v;
-  return paymentObj;
-};
-
-PaymentSchema.statics.checkExistingField = async function (field, value) {
-  const payment = this;
-
-  return payment.findOne({ [`${field}`]: value });
-};
-
-export default mongoose.model('Payment', PaymentSchema, 'payments');

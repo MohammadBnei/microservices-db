@@ -12,12 +12,12 @@ if (!process.env.JWT_KEY) {
     'Please provide a JWT_KEY as global environment variable',
   );
 }
-const jwtKey = process.env.JWT_KEY;
 
 const ProductSchema = new Schema({
   name: { type: String, required: true },
   value: { type: Number, required: true },
-  vendorId: { type: String, required: true }
+  vendorId: { type: String, required: true },
+  quantity: { type: Number, required: true }
 });
 
 ProductSchema.pre('validate', async function (next) {

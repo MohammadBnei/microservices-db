@@ -1,14 +1,11 @@
 import compression from 'compression';
-import MongoStore from 'connect-mongo';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoSanitize from 'express-mongo-sanitize';
-import session from 'express-session';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import passport from 'passport';
 import path from 'path';
 import xss from 'xss-clean';
 
@@ -102,39 +99,6 @@ app.use(compression());
  * Parsing cookie
  */
 app.use(cookieParser());
-
-/**
- * Cookie policy definition
- * @type {string|number}
- */
-const DEFAULT_ENV = process.env.NODE_ENV || 'development';
-const COOKIE_MAX_AGE = process.env.COOKIE_MAX_AGE || 1000 * 60 * 60 * 24 * 30;
-const SECRET = process.env.SECRET || 'my-super-secret';
-
-app.use(
-  session({
-    cookie: {
-      secure: DEFAULT_ENV === 'production',
-      maxAge: COOKIE_MAX_AGE,
-      httpOnly: true,
-      sameSite: 'lax',
-    },
-    secret: SECRET,
-    resave: false,
-    saveUninitialized: true,
-    /* Store session in mongodb */
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI
-    }),
-    // unset: 'destroy',
-  }),
-);
-
-/**
- * Initialize Passport and pass the session to session storage of express
- */
-app.use(passport.initialize());
-app.use(passport.session());
 
 /**
  * Define static routes for express

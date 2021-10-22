@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Payment API",
+    "title": "Payment Creator",
     "description": "This is a minimalistic payment-creator api",
     "contact": {
       "email": "mohammadamine.banaei@gmail.com"

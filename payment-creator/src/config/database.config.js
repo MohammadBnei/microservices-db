@@ -1,10 +1,15 @@
-import redis from 'redis';
+import { createClient } from "redis";
 
-const redis = require('redis');
-const client = redis.createClient({
-    host: process.env.REDIS_URI
+// create redis client
+const client = createClient({
+    url: process.env.REDIS_URI,
 });
 
-client.on('error', err => {
-    console.log('Error ' + err);
-});
+
+(async () => {
+    client.on('error', (err) => console.log('Redis Client Error', err));
+    
+    await client.connect();
+})()
+
+export default client;

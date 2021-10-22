@@ -60,3 +60,5 @@ services:
 
   redis:
     image: redis
+    ports:
+      - 3079:6379

@@ -295,6 +295,9 @@
                               "name": {
                                 "type": "string"
                               },
+                              "quantity": {
+                                "type": "number"
+                              },
                               "value": {
                                 "type": "number"
                               },
@@ -377,6 +380,9 @@
                   "name": {
                     "type": "string"
                   },
+                  "quantity": {
+                    "type": "number"
+                  },
                   "vendorId": {
                     "type": "string"
                   }
@@ -410,6 +416,9 @@
                             },
                             "name": {
                               "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
                             },
                             "value": {
                               "type": "number"
@@ -521,6 +530,9 @@
                             "name": {
                               "type": "string"
                             },
+                            "quantity": {
+                              "type": "number"
+                            },
                             "value": {
                               "type": "number"
                             },
@@ -612,6 +624,9 @@
                   },
                   "name": {
                     "type": "string"
+                  },
+                  "quantity": {
+                    "type": "number"
                   }
                 }
               }
@@ -643,6 +658,9 @@
                             },
                             "name": {
                               "type": "string"
+                            },
+                            "quantity": {
+                              "type": "number"
                             },
                             "value": {
                               "type": "number"
@@ -837,6 +855,9 @@
                             "name": {
                               "type": "string"
                             },
+                            "quantity": {
+                              "type": "number"
+                            },
                             "value": {
                               "type": "number"
                             },
@@ -911,6 +932,9 @@
           },
           "name": {
             "type": "string"
+          },
+          "quantity": {
+            "type": "number"
           },
           "value": {
             "type": "string"
