@@ -49,6 +49,7 @@ export default {
    */
   createPayment: async (req, res) => {
     let productId = null
+    let reservationCreated = false
 
     try {
       const data = {
@@ -70,7 +71,7 @@ export default {
       const { validatePayment, validateUser } = externalValidator(token)
 
       const product = await validatePayment(productId, payed)
-      await createReservation(productId, product.quantity - 1)
+      reservationCreated = !!await createReservation(productId, product.quantity - 1)
 
       if (buyerId !== req.currentUser?.id.toString()) {
         await validateUser(buyerId)
@@ -87,7 +88,7 @@ export default {
       DEBUG(error);
       throw new NotFoundError(error.message);
     } finally {
-      productId && deleteReservation(productId)
+      productId && reservationCreated && deleteReservation(productId)
     }
   }
 };
