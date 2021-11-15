@@ -24,11 +24,15 @@ export const fetchProduct = async (productId, token) => {
     }
 }
 
-export const validatePayment = (token) => async (productId, payed) => {
+export const validatePayment = (token) => async (productId, payed, reservation) => {
     const product = await fetchProduct(productId, token)
 
     if (product.value > Number(payed)) {
         throw new Error('The price is exceeding the ammount payed')
+    }
+
+    if (product.quantity - reservation <= 0) {
+        throw new Error('There is no quantity available for ' + product.id)
     }
 
     return product

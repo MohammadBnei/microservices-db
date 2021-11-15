@@ -16,8 +16,6 @@ const postPayment = async (token, data) => {
       }
     })).data
 
-    console.log({ paymentData })
-
     return paymentData.payment
   } catch (error) {
     DEBUG(error)
@@ -27,7 +25,7 @@ const postPayment = async (token, data) => {
 
 const patchProduct = async (token, { productId, quantity }) => {
   try {
-    const { data: productData }  = (await axios.patch(`${process.env.PRODUCT_API_URL}/${productId}`, { quantity }, {
+    const { data: productData } = (await axios.patch(`${process.env.PRODUCT_API_URL}/${productId}`, { quantity }, {
       headers: {
         authorization: 'Bearer ' + token
       }
@@ -58,11 +56,7 @@ export default {
       }
       productId = data.productId
 
-      const quantityLeft = getReservation(productId)
-
-      if (quantityLeft && Number(quantityLeft) === 0) {
-        throw new Error('No quantity left of the product')
-      }
+      const reservation = await getReservation(productId)
 
       const { payed, buyerId } = data
 
@@ -70,12 +64,19 @@ export default {
 
       const { validatePayment, validateUser } = externalValidator(token)
 
-      const product = await validatePayment(productId, payed)
-      reservationCreated = !!await createReservation(productId, product.quantity - 1)
+      const product = await validatePayment(productId, payed, reservation)
+      await createReservation(productId, product.quantity - 1)
+      reservationCreated = true
 
       if (buyerId !== req.currentUser?.id.toString()) {
         await validateUser(buyerId)
       }
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      await sleep(5000)
 
       const payment = await postPayment(token, data);
       await patchProduct(token, { productId, quantity: product.quantity - 1 })
@@ -88,7 +89,7 @@ export default {
       DEBUG(error);
       throw new NotFoundError(error.message);
     } finally {
-      productId && reservationCreated && deleteReservation(productId)
+      reservationCreated && deleteReservation(productId)
     }
   }
 };
